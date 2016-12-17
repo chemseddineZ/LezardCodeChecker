@@ -75,20 +75,31 @@ class Window(QtGui.QMainWindow):
             #tree = ast.parse(text)
             #print(sum(isinstance(exp, ast.FunctionDef) for exp in tree.body))
 
+
 class CountFunc(ast.NodeVisitor):
     func_count = 0
+
+
     def visit_FunctionDef(self, node):
         self.func_count += 1
+
+    def GoToPath(self, file_path):
+        p = ast.parse(open(file_path).read())
+        self.visit(p)
+        #p = ast.parse(open(path).read())
+
 
 path = "Frame.py"
 p = ast.parse(open(path).read())
 f = CountFunc()
-f.visit(p)
+#f.visit(p)
 print("number of functions:", f.func_count)
 
 def run():
     app = QtGui.QApplication(sys.argv)
     GUI = Window()
-    CountFunc()
+    f = CountFunc()
+    f.GoToPath()
     sys.exit(app.exec_())
+
 run()
