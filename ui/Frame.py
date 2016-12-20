@@ -100,7 +100,7 @@ p = ast.parse(open(path).read())
 f = CountFunc()
 #f.visit(p)'''
 
-
+'''
 def run():
     app = QtGui.QApplication(sys.argv)
     GUI = Window()
@@ -109,3 +109,4 @@ def run():
     sys.exit(app.exec_())
 
 run()
+'''
