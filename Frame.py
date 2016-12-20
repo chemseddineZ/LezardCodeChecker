@@ -2,6 +2,7 @@ import sys
 import ast
 from PyQt4 import QtGui, QtCore
 
+
 class Window(QtGui.QMainWindow):
 
     def __init__(self):
@@ -76,24 +77,29 @@ class Window(QtGui.QMainWindow):
             #print(sum(isinstance(exp, ast.FunctionDef) for exp in tree.body))
 
 
-class CountFunc(ast.NodeVisitor):
-    func_count = 0
+
+
+class CountFunc(ast.NodeVisitor, Window):
+    def __init__(self):
+        self. func_count = 0
+        self.path = "Frame.py"
 
 
     def visit_FunctionDef(self, node):
         self.func_count += 1
 
-    def GoToPath(self, file_path):
-        p = ast.parse(open(file_path).read())
+    def GoToPath(self,):
+        p = ast.parse(open(self.path).read())
         self.visit(p)
+        print("number of functions:", self.func_count)
         #p = ast.parse(open(path).read())
 
-
+'''
 path = "Frame.py"
 p = ast.parse(open(path).read())
 f = CountFunc()
-#f.visit(p)
-print("number of functions:", f.func_count)
+#f.visit(p)'''
+
 
 def run():
     app = QtGui.QApplication(sys.argv)
