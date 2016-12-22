@@ -1,6 +1,7 @@
 import sys
 import ast
 from PyQt4 import QtGui, QtCore
+from radon.visitors import ComplexityVisitor
 
 
 class Window(QtGui.QMainWindow):
@@ -33,16 +34,17 @@ class Window(QtGui.QMainWindow):
 
         editorMenu = mainMenu.addMenu("&Editor")
         editorMenu.addAction(OpenEditor)
-        self.home()
+        self.show()
+       # self.home()
 
-    def home(self):
+    '''def home(self):
         btn = QtGui.QPushButton("Quit", self)
         btn.clicked.connect(self.close_application)
         btn.resize(btn.minimumSizeHint())
         btn.move(100, 100)
         btn.move(0, 100)
         self.show()
-
+'''
     def close_application(self):
         print("bye bye !")
         sys.exit()
@@ -53,60 +55,60 @@ class Window(QtGui.QMainWindow):
 
     def File_Open(self):
         numl = 0
-        name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
+        commentCount = 0;
+        self.name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
         #file = open(name, 'r')
 
         self.editor()
-        commentCount = 0;
-        with open(name, 'r') as file:
+        defCount = 0
 
-            for eachLine in file: #loops the lines in the file object ans sets the pointer to the end of the file
+
+        with open(self.name, 'r') as file:
+
+            '''file.seek(0, 0)
+            text = file.read()
+            v = ComplexityVisitor.from_code(text)
+            print(v.functions)'''
+
+            for eachLine in file:
+                #loops the lines in the file object ans sets the pointer to the end of the file
                 if eachLine.strip(): #check if the line is a blank line
-                 numl =  numl + 1
+                 numl += 1
                 if eachLine.find('#') != -1: #looks to find the comment tag
                     commentCount += 1
-            print("number of comments %i" % (commentCount - 1))
+            print("number of comments %i" % commentCount)
             print("num lines %i: "% numl)
 
             file.seek(0, 0) #resets the pointer to the beginning of the file so we can read it again
             text = file.read()
             self.textEdit.setText(text)
-
-
             #tree = ast.parse(text)
-            #print(sum(isinstance(exp, ast.FunctionDef) for exp in tree.body))
+            #print(sum(isinstance(exp, ast.FunctionDef)for exp in tree.body))
+
+        #function_counter = CountFunc(self.name)
 
 
-
-
-class CountFunc(ast.NodeVisitor, Window):
+class CountFunc(ast.NodeVisitor):
     def __init__(self):
         self. func_count = 0
-        self.path = "Frame.py"
+        self.path = "../ui/Frame.py"
 
 
     def visit_FunctionDef(self, node):
         self.func_count += 1
 
-    def GoToPath(self,):
+    def GoToPath(self):
         p = ast.parse(open(self.path).read())
         self.visit(p)
         print("number of functions:", self.func_count)
         #p = ast.parse(open(path).read())
 
-'''
-path = "Frame.py"
-p = ast.parse(open(path).read())
-f = CountFunc()
-#f.visit(p)'''
 
-'''
-def run():
+'''def run():
     app = QtGui.QApplication(sys.argv)
     GUI = Window()
     f = CountFunc()
     f.GoToPath()
     sys.exit(app.exec_())
 
-run()
-'''
+run()'''
