@@ -1,12 +1,9 @@
 import sys
-import ast
-from PyQt4 import QtGui
-from ui.Frame import Window
-from ui import Frame
-
-
+#import ast
+from PyQt5.QtWidgets import QApplication
+from ui.Frame import Example
+#hhhhhhhh
 if __name__ == '__main__':
-    app = QtGui.QApplication(sys.argv)
-    frame = Window()
-    frame.show()
+    app = QApplication(sys.argv)
+    ex = Example()
     sys.exit(app.exec_())
